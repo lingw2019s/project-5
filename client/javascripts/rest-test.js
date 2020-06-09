@@ -15,7 +15,7 @@ let controller = function() {
   $('div').html('');
 
   $.getJSON(endpointURL, (resp) => {
-    console.log("in getJSON. resp.message =" + resp.message);
+    console.log("in getJSON. resp.message = " + resp.message);
     $("div").text(resp.message);
   }).fail(failHandler);
 };

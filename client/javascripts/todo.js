@@ -2,12 +2,12 @@
 
 let controller = function() {
   //load comments from db when page loads
-  //if (localStorage.getItem("commentsList")) {
-  //  $(".comments").html(localStorage.getItem("commentsList"));
-  //}
+  if (localStorage.getItem("commentsList")) {
+    $(".comments").html(localStorage.getItem("commentsList"));
+  }
 
   $.ajax({
-    url: "http://localhost:8888/comments",
+    url: "http://localhost:8888/todos",
     method: "GET"
   }).done((res) => {
     let pElem;
@@ -33,7 +33,7 @@ let controller = function() {
       //add comment to db
       $.ajax({
           method: "POST",
-          url: "http://localhost:8888/addcomment",
+          url: "http://localhost:8888/addtodo",
           data: {
             data: content
           }
@@ -60,10 +60,10 @@ let deleteComment = () => {
   let content = $("#deleteOne").val();
   $.ajax({
       method: "POST",
-      url: "http://localhost:8888/deletecomment/" + content
+      url: "http://localhost:8888/deletetodo/" + content
     })
     .done(function(msg) {
-      console.log("Comment deleted: " + msg);
+      console.log("Todo deleted: " + msg);
     });
 
   window.location.reload();
@@ -77,11 +77,11 @@ let getComment = () => {
   let content = $("#getOne").val();
   $.ajax({
       method: "GET",
-      url: "http://localhost:8888/getcomment/" + content
+      url: "http://localhost:8888/gettodo/" + content
     })
     .done(function(msg) {
-      console.log("Comment retrieved: " + msg.message.data);
-      pElem = $("<p>").html("Comment Retrieved: " + msg.message.data)
+      console.log("Todo retrieved: " + msg.message.data);
+      pElem = $("<p>").html("Todo Retrieved: " + msg.message.data)
       $("#outDiv").append(pElem);
     });
 
@@ -90,8 +90,11 @@ let getComment = () => {
 
 let deleteAll = () => {
   //delete all comments from db
+  console.log(localStorage.getItem("commentList"))
   localStorage.removeItem("commentsList")
-  window.location.reload();
+  console.log(localStorage.getItem("commentList"))
+  //window.location.reload();
+  console.log(localStorage.getItem("commentList"))
 }
 
 $(document).ready(() => {

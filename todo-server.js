@@ -13,7 +13,7 @@ const
   MongoClient = require('mongodb').MongoClient,
   client = new MongoClient(dbURL),
   dbName = 'todoDB',
-  collName = 'todo';
+  collName = 'todos';
 
 let db, col, key = 0;
 
@@ -51,7 +51,7 @@ app.get('/todos', (req, res) => {
     //console.log(result);
     res.status(200).send({
       success: 'true',
-      message: 'comments retrieved successfully',
+      message: 'to-dos retrieved successfully',
       comments: result
     })
   })
@@ -68,7 +68,7 @@ app.get('/gettodo/:data', (req, res, next) => {
     console.log(result);
     res.status(200).send({
       status_code: 200,
-      message: ((result) ? result : 'comment not found')
+      message: ((result) ? result : 'to-do not found')
     })
   });
 });
@@ -77,24 +77,24 @@ app.get('/gettodo/:data', (req, res, next) => {
 //Endpoint to add a comment
 app.post('/addtodo', (req, res) => {
   // Insert a single document
-  let comment = {
+  let todo = {
     data: req.body.data
   }
 
-  db.collection(collName).insertOne(comment)
+  db.collection(collName).insertOne(todo)
     .then(result => {
       console.log(`record inserted ${result}`)
       return res.status(201).send({
         status_code: 200,
-        message: 'Comment added successfully',
-        comment
+        message: 'To-do added successfully',
+        todo
       })
     })
     .catch(error => console.error(error))
 })
 
 //Endpoint to Delete a single comment
-app.post('/deletecomment/:data', (req, res) => {
+app.post('/deletetodo/:data', (req, res) => {
   const data = req.params.data;
   console.log(data)
   db.collection(collName).deleteOne({
@@ -107,12 +107,12 @@ app.post('/deletecomment/:data', (req, res) => {
 
   return res.status(200).send({
     status_code: 200,
-    message: "comment deleted",
+    message: "to-do deleted",
   })
 });
 
 //Endpoint to Delete all tel numbers
-app.delete('/deletenums', (req, res) => {
+app.delete('/deleteall', (req, res) => {
   db.collection(collName).deleteMany({}, function(err, obj) {
     if (err) throw err;
     //number of documents deleted
@@ -121,7 +121,7 @@ app.delete('/deletenums', (req, res) => {
 
   return res.status(200).send({
     status_code: 200,
-    message: "phonebook collection is empty"
+    message: "To-do list is empty"
   })
 });
 
